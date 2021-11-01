@@ -17,6 +17,8 @@ from tensorflow.keras.preprocessing import image_dataset_from_directory
 from keras.models import Model
 from keras.losses import SparseCategoricalCrossentropy
 
+import time
+
 dir = '/home/UG/jwoon006/CZ4042-THFOOD50/THFOOD50-v1'
 
 SEED = 50
@@ -193,7 +195,10 @@ def scheduler(epoch, lr):
 
 sh_callback = tf.keras.callbacks.LearningRateScheduler(scheduler)
 
+start_time = time.time()
 history = model.fit(train_ds, epochs=epochs, validation_data=val_ds, callbacks=[cp_callback, sh_callback], verbose=2)
+time_taken = time.time() - start_time
+print("Total time taken to train in seconds:", time_taken)
 
 os.listdir(checkpoint_dir)
 
