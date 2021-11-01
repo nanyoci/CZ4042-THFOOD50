@@ -108,8 +108,8 @@ def inception_3(channel1, channel2, channel3, depth, layer_in):
 def inception_4(channel1, channel2, channel3, channel4, depth, layer_in):
   conv1 = conv_bn_relu(channel1, 1, 1, 'valid', f'nu_inception_{depth}_3x3_0_3_reduce', layer_in)
   conv2 = conv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3_1_3', conv1)
-  conv3 = conv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3_2_3', conv2)
-  layer_out = conv_bn_relu(channel3, 3, 1, 'same', f'nu_inception_{depth}_3x3_3_3', conv3)
+  conv3 = conv_bn_relu(channel3, 3, 1, 'same', f'nu_inception_{depth}_3x3_2_3', conv2)
+  layer_out = conv_bn_relu(channel4, 3, 1, 'same', f'nu_inception_{depth}_3x3_3_3', conv3)
 
   return layer_out
 
