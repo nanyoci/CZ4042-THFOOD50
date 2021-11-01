@@ -165,7 +165,7 @@ def create_model():
   layer_out = conv_bn_relu(64, 5, 2, 'same', 'conv1', input)
 
   for i, module in enumerate(modules):
-    layer_out = resnet_block(module[0], module[1], module[2], module[3], direct_channels[i], bypass_channels[i], i+1, layer_out)
+    layer_out = resnet_block(module[0], module[1], module[2], module[3], module[4], direct_channels[i], bypass_channels[i], i+1, layer_out)
 
   avg_pool = GlobalAveragePooling2D(name='avg_pool')(layer_out)
   
