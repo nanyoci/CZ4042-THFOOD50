@@ -1,0 +1,116 @@
+Some weights of ViTForImageClassification were not initialized from the model checkpoint at google/vit-base-patch16-224 and are newly initialized because the shapes did not match:
+- classifier.weight: found shape torch.Size([1000, 768]) in the checkpoint and torch.Size([50, 768]) in the model instantiated
+- classifier.bias: found shape torch.Size([1000]) in the checkpoint and torch.Size([50]) in the model instantiated
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Number of parameters: 85837106
+Global seed set to 42
+Using 16bit native Automatic Mixed Precision (AMP)
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+  | Name      | Type                      | Params
+--------------------------------------------------------
+0 | model     | ViTForImageClassification | 85.8 M
+1 | top_1_acc | Accuracy                  | 0     
+2 | top_5_acc | Accuracy                  | 0     
+--------------------------------------------------------
+85.8 M    Trainable params
+0         Non-trainable params
+85.8 M    Total params
+171.674   Total estimated model params size (MB)
+Global seed set to 42
+Epoch 0:  91% 1600/1767 [30:53<03:13,  1.16s/it, loss=0.44, v_num=18]
+Validating: 0it [00:00, ?it/s]
+Validating:   0% 0/177 [00:00<?, ?it/s]
+Epoch 0:  92% 1620/1767 [31:02<02:49,  1.15s/it, loss=0.44, v_num=18]
+Epoch 0:  93% 1640/1767 [31:11<02:24,  1.14s/it, loss=0.44, v_num=18]
+Epoch 0:  94% 1660/1767 [31:20<02:01,  1.13s/it, loss=0.44, v_num=18]
+Epoch 0:  95% 1680/1767 [31:28<01:37,  1.12s/it, loss=0.44, v_num=18]
+Epoch 0:  96% 1700/1767 [31:37<01:14,  1.12s/it, loss=0.44, v_num=18]
+Epoch 0:  97% 1720/1767 [31:46<00:52,  1.11s/it, loss=0.44, v_num=18]
+Epoch 0:  98% 1740/1767 [31:54<00:29,  1.10s/it, loss=0.44, v_num=18]
+Epoch 0: 100% 1760/1767 [32:03<00:07,  1.09s/it, loss=0.44, v_num=18]
+Epoch 0: 100% 1767/1767 [32:10<00:00,  1.09s/it, loss=0.493, v_num=18, val_top_1_acc=0.895, val_top_5_acc=0.981]
+                                                 tcmalloc: large alloc 1218887680 bytes == 0x5565d4c7a000 @  0x7f2576040615 0x55651cf234cc 0x55651d00347a 0x55651cf29f0c 0x7f255da729e4 0x7f255da7b0e4 0x7f255da4fbf0 0x7f24bb575935 0x7f24bb57126e 0x7f24bb57640a 0x7f255da5013e 0x7f255d4e5f98 0x55651cf27098 0x55651cf9a4d9 0x55651cf94ced 0x55651cf27bda 0x55651cf95915 0x55651cf949ee 0x55651cf27bda 0x55651cf99d00 0x55651cf27afa 0x55651cf95915 0x55651cf949ee 0x55651cf27bda 0x55651cf95c0d 0x55651cf27afa 0x55651cf95c0d 0x55651cf949ee 0x55651cf27bda 0x55651cf95c0d 0x55651cf949ee
+Epoch 1:  91% 1600/1767 [30:51<03:13,  1.16s/it, loss=0.155, v_num=18, val_top_1_acc=0.895, val_top_5_acc=0.981]
+Validating: 0it [00:00, ?it/s]
+Validating:   0% 0/177 [00:00<?, ?it/s]
+Epoch 1:  92% 1620/1767 [31:01<02:48,  1.15s/it, loss=0.155, v_num=18, val_top_1_acc=0.895, val_top_5_acc=0.981]
+Epoch 1:  93% 1640/1767 [31:09<02:24,  1.14s/it, loss=0.155, v_num=18, val_top_1_acc=0.895, val_top_5_acc=0.981]
+Epoch 1:  94% 1660/1767 [31:18<02:01,  1.13s/it, loss=0.155, v_num=18, val_top_1_acc=0.895, val_top_5_acc=0.981]
+Epoch 1:  95% 1680/1767 [31:26<01:37,  1.12s/it, loss=0.155, v_num=18, val_top_1_acc=0.895, val_top_5_acc=0.981]
+Epoch 1:  96% 1700/1767 [31:35<01:14,  1.12s/it, loss=0.155, v_num=18, val_top_1_acc=0.895, val_top_5_acc=0.981]
+Epoch 1:  97% 1720/1767 [31:44<00:52,  1.11s/it, loss=0.155, v_num=18, val_top_1_acc=0.895, val_top_5_acc=0.981]
+Epoch 1:  98% 1740/1767 [31:52<00:29,  1.10s/it, loss=0.155, v_num=18, val_top_1_acc=0.895, val_top_5_acc=0.981]
+Epoch 1: 100% 1760/1767 [32:01<00:07,  1.09s/it, loss=0.155, v_num=18, val_top_1_acc=0.895, val_top_5_acc=0.981]
+Epoch 1: 100% 1767/1767 [32:08<00:00,  1.09s/it, loss=0.161, v_num=18, val_top_1_acc=0.909, val_top_5_acc=0.990]
+                                                 tcmalloc: large alloc 1218887680 bytes == 0x5565d4c7a000 @  0x7f2576040615 0x55651cf234cc 0x55651d00347a 0x55651cf29f0c 0x7f255da729e4 0x7f255da7b0e4 0x7f255da4fbf0 0x7f24bb575935 0x7f24bb57126e 0x7f24bb57640a 0x7f255da5013e 0x7f255d4e5f98 0x55651cf27098 0x55651cf9a4d9 0x55651cf94ced 0x55651cf27bda 0x55651cf95915 0x55651cf949ee 0x55651cf27bda 0x55651cf99d00 0x55651cf27afa 0x55651cf95915 0x55651cf949ee 0x55651cf27bda 0x55651cf95c0d 0x55651cf27afa 0x55651cf95c0d 0x55651cf949ee 0x55651cf27bda 0x55651cf95c0d 0x55651cf949ee
+Epoch 2:  91% 1600/1767 [30:51<03:13,  1.16s/it, loss=0.034, v_num=18, val_top_1_acc=0.909, val_top_5_acc=0.990]
+Validating: 0it [00:00, ?it/s]
+Validating:   0% 0/177 [00:00<?, ?it/s]
+Epoch 2:  92% 1620/1767 [31:01<02:48,  1.15s/it, loss=0.034, v_num=18, val_top_1_acc=0.909, val_top_5_acc=0.990]
+Epoch 2:  93% 1640/1767 [31:09<02:24,  1.14s/it, loss=0.034, v_num=18, val_top_1_acc=0.909, val_top_5_acc=0.990]
+Epoch 2:  94% 1660/1767 [31:18<02:01,  1.13s/it, loss=0.034, v_num=18, val_top_1_acc=0.909, val_top_5_acc=0.990]
+Epoch 2:  95% 1680/1767 [31:26<01:37,  1.12s/it, loss=0.034, v_num=18, val_top_1_acc=0.909, val_top_5_acc=0.990]
+Epoch 2:  96% 1700/1767 [31:35<01:14,  1.11s/it, loss=0.034, v_num=18, val_top_1_acc=0.909, val_top_5_acc=0.990]
+Epoch 2:  97% 1720/1767 [31:43<00:52,  1.11s/it, loss=0.034, v_num=18, val_top_1_acc=0.909, val_top_5_acc=0.990]
+Epoch 2:  98% 1740/1767 [31:51<00:29,  1.10s/it, loss=0.034, v_num=18, val_top_1_acc=0.909, val_top_5_acc=0.990]
+Epoch 2: 100% 1760/1767 [32:00<00:07,  1.09s/it, loss=0.034, v_num=18, val_top_1_acc=0.909, val_top_5_acc=0.990]
+Epoch 2: 100% 1767/1767 [32:08<00:00,  1.09s/it, loss=0.0388, v_num=18, val_top_1_acc=0.916, val_top_5_acc=0.989]
+Epoch 3:  91% 1600/1767 [30:52<03:13,  1.16s/it, loss=0.0152, v_num=18, val_top_1_acc=0.916, val_top_5_acc=0.989]
+Validating: 0it [00:00, ?it/s]
+Validating:   0% 0/177 [00:00<?, ?it/s]
+Epoch 3:  92% 1620/1767 [31:01<02:48,  1.15s/it, loss=0.0152, v_num=18, val_top_1_acc=0.916, val_top_5_acc=0.989]
+Epoch 3:  93% 1640/1767 [31:09<02:24,  1.14s/it, loss=0.0152, v_num=18, val_top_1_acc=0.916, val_top_5_acc=0.989]
+Epoch 3:  94% 1660/1767 [31:18<02:01,  1.13s/it, loss=0.0152, v_num=18, val_top_1_acc=0.916, val_top_5_acc=0.989]
+Epoch 3:  95% 1680/1767 [31:26<01:37,  1.12s/it, loss=0.0152, v_num=18, val_top_1_acc=0.916, val_top_5_acc=0.989]
+Epoch 3:  96% 1700/1767 [31:35<01:14,  1.11s/it, loss=0.0152, v_num=18, val_top_1_acc=0.916, val_top_5_acc=0.989]
+Epoch 3:  97% 1720/1767 [31:43<00:52,  1.11s/it, loss=0.0152, v_num=18, val_top_1_acc=0.916, val_top_5_acc=0.989]
+Epoch 3:  98% 1740/1767 [31:51<00:29,  1.10s/it, loss=0.0152, v_num=18, val_top_1_acc=0.916, val_top_5_acc=0.989]
+Epoch 3: 100% 1760/1767 [32:00<00:07,  1.09s/it, loss=0.0152, v_num=18, val_top_1_acc=0.916, val_top_5_acc=0.989]
+Epoch 3: 100% 1767/1767 [32:07<00:00,  1.09s/it, loss=0.0155, v_num=18, val_top_1_acc=0.929, val_top_5_acc=0.992]
+Epoch 4:  91% 1600/1767 [30:56<03:13,  1.16s/it, loss=0.0457, v_num=18, val_top_1_acc=0.929, val_top_5_acc=0.992]
+Validating: 0it [00:00, ?it/s]
+Validating:   0% 0/177 [00:00<?, ?it/s]
+Epoch 4:  92% 1620/1767 [31:06<02:49,  1.15s/it, loss=0.0457, v_num=18, val_top_1_acc=0.929, val_top_5_acc=0.992]
+Epoch 4:  93% 1640/1767 [31:14<02:25,  1.14s/it, loss=0.0457, v_num=18, val_top_1_acc=0.929, val_top_5_acc=0.992]
+Epoch 4:  94% 1660/1767 [31:23<02:01,  1.13s/it, loss=0.0457, v_num=18, val_top_1_acc=0.929, val_top_5_acc=0.992]
+Epoch 4:  95% 1680/1767 [31:31<01:37,  1.13s/it, loss=0.0457, v_num=18, val_top_1_acc=0.929, val_top_5_acc=0.992]
+Epoch 4:  96% 1700/1767 [31:40<01:14,  1.12s/it, loss=0.0457, v_num=18, val_top_1_acc=0.929, val_top_5_acc=0.992]
+Epoch 4:  97% 1720/1767 [31:49<00:52,  1.11s/it, loss=0.0457, v_num=18, val_top_1_acc=0.929, val_top_5_acc=0.992]
+Epoch 4:  98% 1740/1767 [31:57<00:29,  1.10s/it, loss=0.0457, v_num=18, val_top_1_acc=0.929, val_top_5_acc=0.992]
+Epoch 4: 100% 1760/1767 [32:06<00:07,  1.09s/it, loss=0.0457, v_num=18, val_top_1_acc=0.929, val_top_5_acc=0.992]
+Epoch 4: 100% 1767/1767 [32:13<00:00,  1.09s/it, loss=0.0252, v_num=18, val_top_1_acc=0.904, val_top_5_acc=0.989]
+Epoch 4: 100% 1767/1767 [32:21<00:00,  1.10s/it, loss=0.0252, v_num=18, val_top_1_acc=0.904, val_top_5_acc=0.989]
+Time taken: 9693.235309123993
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+Validating: 0it [00:00, ?it/s]
+Validating:   0% 0/177 [00:00<?, ?it/s]
+Validating:  11% 20/177 [00:10<01:20,  1.94it/s]
+Validating:  23% 40/177 [00:19<01:07,  2.04it/s]
+Validating:  34% 60/177 [00:29<00:56,  2.09it/s]
+Validating:  45% 80/177 [00:37<00:45,  2.15it/s]
+Validating:  56% 100/177 [00:46<00:34,  2.22it/s]
+Validating:  68% 120/177 [00:54<00:25,  2.26it/s]
+Validating:  79% 140/177 [01:03<00:16,  2.31it/s]
+Validating:  90% 160/177 [01:12<00:07,  2.26it/s]
+Validating: 100% 177/177 [01:20<00:00,  2.25it/s]--------------------------------------------------------------------------------
+DATALOADER:0 VALIDATE RESULTS
+{'val_loss': 0.35049429535865784,
+ 'val_top_1_acc': 0.9044585824012756,
+ 'val_top_5_acc': 0.9886765480041504}
+--------------------------------------------------------------------------------
+
+                                                 LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Testing: 100% 200/200 [01:31<00:00,  2.30it/s]--------------------------------------------------------------------------------
+DATALOADER:0 TEST RESULTS
+{'test_loss': 0.3371066451072693,
+ 'test_top_1_acc': 0.9098309278488159,
+ 'test_top_5_acc': 0.9899812340736389}
+--------------------------------------------------------------------------------
+Testing: 100% 200/200 [01:31<00:00,  2.19it/s]
+Preds:  tensor([0, 0, 0, 0, 0, 0, 0, 0])
+Labels: tensor([0, 0, 0, 0, 0, 0, 0, 0])
