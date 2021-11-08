@@ -1,0 +1,80 @@
+ViT-Original: PadPakBung(Somtam)
+ViT-Food-101: PadPakBung(PadPakBung)
+ViT-No-Pretraining: PadPakBung(YamWoonSen)
+
+ViT-Original: KuaKling(KuaKling)
+ViT-Food-101: KuaKling(KuaKling)
+ViT-No-Pretraining: KuaKling(KuaKling)
+
+ViT-Original: NamTokMoo(NamTokMoo)
+ViT-Food-101: NamTokMoo(NamTokMoo)
+ViT-No-Pretraining: NamTokMoo(NamTokMoo)
+
+ViT-Original: Yentafo(Yentafo)
+ViT-Food-101: Yentafo(Yentafo)
+ViT-No-Pretraining: Yentafo(EggsStewed)
+
+ViT-Original: GaiYang(FriedChicken)
+ViT-Food-101: GaiYang(GaiYang)
+ViT-No-Pretraining: GaiYang(CurriedFishCake)
+
+ViT-Original: KaoMooDang(KhaoMooTodGratiem)
+ViT-Food-101: KaoMooDang(KaoMooDang)
+ViT-No-Pretraining: KaoMooDang(StewedPorkLeg)
+
+ViT-Original: Suki(Suki)
+ViT-Food-101: Suki(Suki)
+ViT-No-Pretraining: Suki(KkaoKlukKaphi)
+
+ViT-Original: PorkStickyNoodles(PorkStickyNoodles)
+ViT-Food-101: PorkStickyNoodles(PorkStickyNoodles)
+ViT-No-Pretraining: PorkStickyNoodles(PorkStickyNoodles)
+
+ViT-Original: BitterMelonSoup(BitterMelonSoup)
+ViT-Food-101: BitterMelonSoup(BitterMelonSoup)
+ViT-No-Pretraining: BitterMelonSoup(BitterMelonSoup)
+
+ViT-Original: GaengJued(Suki)
+ViT-Food-101: GaengJued(Suki)
+ViT-No-Pretraining: GaengJued(YamWoonSen)
+
+ViT-Original: TomKhaGai(TomKhaGai)
+ViT-Food-101: TomKhaGai(TomKhaGai)
+ViT-No-Pretraining: TomKhaGai(YamWoonSen)
+
+ViT-Original: KhaoNiewMaMuang(KhaoNiewMaMuang)
+ViT-Food-101: KhaoNiewMaMuang(KhaoNiewMaMuang)
+ViT-No-Pretraining: KhaoNiewMaMuang(EggsStewed)
+
+ViT-Original: EggsStewed(EggsStewed)
+ViT-Food-101: EggsStewed(EggsStewed)
+ViT-No-Pretraining: EggsStewed(EggsStewed)
+
+ViT-Original: MooSatay(MooSatay)
+ViT-Food-101: MooSatay(MooSatay)
+ViT-No-Pretraining: MooSatay(KuaKling)
+
+ViT-Original: KaoManGai(KaoManGai)
+ViT-Food-101: KaoManGai(KaoManGai)
+ViT-No-Pretraining: KaoManGai(KaoManGai)
+
+ViT-Original: KhaoMooTodGratiem(KhaoMooTodGratiem)
+ViT-Food-101: KhaoMooTodGratiem(KhaoMooTodGratiem)
+ViT-No-Pretraining: KhaoMooTodGratiem(GrilledQquid)
+
+ViT-Original: KaiThoon(KaiThoon)
+ViT-Food-101: KaiThoon(KaiThoon)
+ViT-No-Pretraining: KaiThoon(Roast_fish)
+
+ViT-Original: Somtam(Somtam)
+ViT-Food-101: Somtam(Somtam)
+ViT-No-Pretraining: Somtam(GaengKeawWan)
+
+ViT-Original: Roast_fish(Roast_fish)
+ViT-Food-101: Roast_fish(Roast_fish)
+ViT-No-Pretraining: Roast_fish(StewedPorkLeg)
+
+ViT-Original: GaengJued(GaengJued)
+ViT-Food-101: GaengJued(GaengJued)
+ViT-No-Pretraining: GaengJued(GaengJued)
+

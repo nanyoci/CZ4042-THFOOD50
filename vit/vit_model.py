@@ -6,11 +6,12 @@ import argparse
 from pathlib import Path
 import matplotlib.pyplot as plt
 import torch
-import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 from torchmetrics import Accuracy
 from torchvision.datasets import ImageFolder
 from transformers import ViTFeatureExtractor, ViTForImageClassification, ViTConfig
+import pytorch_lightning as pl
+from pytorch_lightning.callbacks import ModelCheckpoint
 from PIL import Image, ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -135,7 +136,14 @@ class Classifier(pl.LightningModule):
 # Train the model
 pl.seed_everything(42)
 classifier = Classifier(model, lr=2e-5)
-trainer = pl.Trainer(gpus=1, precision=16, max_epochs=MAX_EPOCHS)
+trainer = pl.Trainer(
+    gpus=1,
+    precision=16,
+    max_epochs=MAX_EPOCHS,
+    enable_checkpointing=True,
+    default_root_dir=f"{MODEL_DIR}_trainer/",
+    callbacks=[ModelCheckpoint(monitor="val_loss")],
+)
 
 start_time = time.time()
 trainer.fit(classifier, train_loader, val_loader)
@@ -143,8 +151,8 @@ time_elapsed = time.time() - start_time
 print("Time taken:", time_elapsed)
 
 # Evaluate on validation set & test set
-trainer.validate(classifier, val_loader)
-trainer.test(classifier, test_loader)
+trainer.validate(classifier, val_loader, ckpt_path="best")
+trainer.test(classifier, test_loader, ckpt_path="best")
 
 
 # Save model
