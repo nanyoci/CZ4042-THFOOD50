@@ -11,8 +11,8 @@ import cv2
 
 
 # Load models
-model_names = ["ViT-Original", "ViT-Food-101", "ViT-No-Pretraining"]
-model_dirs = ["./original_model", "./food_model", "./nopretrain_model"]
+model_names = ["ViT-Original", "ViT-Food-101", "ViT-No-Pretraining", "VIT-Original-Data-Aug"]
+model_dirs = ["./original_model", "./food_model", "./nopretrain_model", "./original_model_data_aug"]
 feature_extractors = []
 models = []
 
@@ -65,21 +65,21 @@ def get_attention_map(image, feature_extractor, model):
     return rescaled_image, output_mask, output_att_map, predicted_class
 
 def plot_attention_map(model_outputs):
-    fig, axarr = plt.subplots(3, 3, figsize=(16, 16))
+    fig, axarr = plt.subplots(3, 4, figsize=(16, 12))
 
     for i, model_output in enumerate(model_outputs):
         original_img, mask, att_map, _ = model_output
-        axarr[i][0].set_title(f'{model_names[i]}: Original')
-        axarr[i][1].set_title(f'{model_names[i]}: Attention')
-        axarr[i][2].set_title(f'{model_names[i]}: Image with Attention')
+        axarr[0][i].set_title(f'{model_names[i]}: Original')
+        axarr[1][i].set_title(f'{model_names[i]}: Attention')
+        axarr[2][i].set_title(f'{model_names[i]}: Image + Attention')
 
-        axarr[i][0].imshow(original_img)
-        axarr[i][1].imshow(mask)
-        axarr[i][2].imshow(att_map)
+        axarr[0][i].imshow(original_img)
+        axarr[1][i].imshow(mask)
+        axarr[2][i].imshow(att_map)
 
-        axarr[i][0].axis("off")
-        axarr[i][1].axis("off")
-        axarr[i][2].axis("off")
+        axarr[0][i].axis("off")
+        axarr[1][i].axis("off")
+        axarr[2][i].axis("off")
 
 
 # Generate attention maps for 20 random images
@@ -95,6 +95,7 @@ for i in range(20):
     
     # Get model outputs for each model
     model_outputs = []
+    print(f"attention_maps/attention_map_{i + 1}.png")
     for j in range(len(models)):
         model_outputs.append(get_attention_map(image, feature_extractors[j], models[j]))
         print(f"{model_names[j]}: {class_name}({model_outputs[j][3]})")

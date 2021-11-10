@@ -6,13 +6,15 @@
 	- `original_model/`
 	- `food_model/`
 	- `nopretrain_model/`
+	- `original_model_data_aug/`
 
 ## How to Run
 1. Install packages: `pip install -r requirements.txt`
 2. Run model experiments
 	1. ViT-Original: `python vit_model.py --pretrain original --epochs 10`
 	2. ViT-Food-101: `python vit_model.py --pretrain food101 --epochs 10`
-	3. ViT-No-Pretraining: `python vit_model.py  --epochs 10`
+	3. ViT-No-Pretraining: `python vit_model.py --epochs 10`
+	4. ViT-Original-Data-Aug: `python vit_model.py --pretrain original --epochs 5 --data_augmentation`
 3. Visualise attention maps: `python visualise_attention.py`
 
 ## Code Inspiration
