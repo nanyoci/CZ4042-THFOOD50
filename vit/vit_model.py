@@ -1,4 +1,5 @@
 import os
+import PIL
 import shutil
 import random
 import time
@@ -23,9 +24,10 @@ FOOD_MODEL_NAME = "nateraw/food"
 parser = argparse.ArgumentParser()
 parser.add_argument('--epochs', help='Number of epochs to run', type=int, default=5)
 parser.add_argument('--pretrain', help='Which pre-trained model to use (options: "original" (pre-trained model from the paper), "food101" (pre-trained model on food 101), default (no pre-training))', type=str)
-args = parser.parse_args()
+parser.add_argument('--data_augmentation', help='Whether to run with data augmentation', dest='data_augmentation', action='store_true')
+parser.set_defaults(data_augmentation=False)
 
-MAX_EPOCHS = args.epochs
+args = parser.parse_args()
 
 if args.pretrain == "original":
     MODEL_NAME = VIT_MODEL_NAME
@@ -39,6 +41,9 @@ else:
     MODEL_NAME = None
     MODEL_DIR = "./nopretrain_model"
 
+if args.data_augmentation:
+    MODEL_DIR += "_data_aug"
+
 
 # Prepare dataset
 train_dir = Path('../THFOOD50-v1/train/')
@@ -50,11 +55,21 @@ val_ds = ImageFolder(val_dir)
 test_ds = ImageFolder(test_dir)
 
 
+# Data Augmentation
+if args.data_augmentation:
+    train_rot90 = ImageFolder(train_dir, transform=lambda x: x.rotate(90))
+    train_rot180 = ImageFolder(train_dir, transform=lambda x: x.rotate(180))
+    train_rot270 = ImageFolder(train_dir, transform=lambda x: x.rotate(270))
+    train_flip = ImageFolder(train_dir, transform=lambda x: x.transpose(PIL.Image.FLIP_LEFT_RIGHT))
+
+    train_ds = train_ds + train_rot90 + train_rot180 + train_rot270 + train_flip
+
+
 # Prepare label2id & id2label
 label2id = {}
 id2label = {}
 
-for i, class_name in enumerate(train_ds.classes):
+for i, class_name in enumerate(test_ds.classes):
     label2id[class_name] = i
     id2label[i] = class_name
 
@@ -139,7 +154,7 @@ classifier = Classifier(model, lr=2e-5)
 trainer = pl.Trainer(
     gpus=1,
     precision=16,
-    max_epochs=MAX_EPOCHS,
+    max_epochs=args.epochs,
     enable_checkpointing=True,
     default_root_dir=f"{MODEL_DIR}_trainer/",
     callbacks=[ModelCheckpoint(monitor="val_loss")],
@@ -177,7 +192,7 @@ print("Labels:", test_batch["labels"])
 plt.figure(figsize=(10, 10))
 
 for i in range(9):
-    class_idx = random.randint(0, len(train_ds.classes) - 1)
+    class_idx = random.randint(0, len(test_ds.classes) - 1)
     class_name = model.config.id2label[class_idx]
     folder = test_ds.root / class_name
     image_path = random.choice(os.listdir(folder))
