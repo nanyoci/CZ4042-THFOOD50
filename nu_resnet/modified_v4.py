@@ -22,7 +22,7 @@ import time
 
 from tensorflow.python.keras.backend import dropout
 
-dir = '/home/UG/jwoon006/CZ4042-THFOOD50/THFOOD50-v1'
+dir = '../THFOOD50-v1'
 
 SEED = 50
 random.seed(SEED)
