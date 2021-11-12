@@ -1,5 +1,5 @@
-# modified_v2.py
-# use original GoogLeNet inception module
+# modified_v1.py
+# removes reducers
 
 import tensorflow
 import pandas as pd
@@ -19,7 +19,7 @@ from keras.losses import SparseCategoricalCrossentropy
 
 import time
 
-dir = '/home/UG/jwoon006/CZ4042-THFOOD50/THFOOD50-v1'
+dir = '../THFOOD50-v1'
 
 SEED = 50
 random.seed(SEED)
@@ -97,29 +97,29 @@ def inception_1(channel1, depth, layer_in):
 
   return layer_out
 
-def inception_2(channel1, channel2, depth, layer_in):
-  conv1 = conv_bn_relu(channel1, 1, 1, 'valid', f'nu_inception_{depth}_3x3_reduce', layer_in)
-  layer_out = conv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3', conv1)
+def inception_2(channel2, depth, layer_in):
+  layer_out = conv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3', layer_in)
 
   return layer_out
 
-def inception_3(channel1, channel2, depth, layer_in):
-  conv1 = conv_bn_relu(channel1, 1, 1, 'valid', f'nu_inception_{depth}_5x5_reduce', layer_in)
-  layer_out = conv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_5x5', conv1)
+def inception_3(channel2, channel3, depth, layer_in):
+  conv2 = conv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3_1', layer_in)
+  layer_out = conv_bn_relu(channel3, 3, 1, 'same', f'nu_inception_{depth}_3x3_2', conv2)
 
   return layer_out
 
-def inception_4(channel1, depth, layer_in):
-  pool = MaxPooling2D(3, 1, 'same', name=f'nu_inception_{depth}_maxpool')(layer_in)
-  layer_out = conv_bn_relu(channel1, 1, 1, 'valid', f'nu_inception_{depth}_1x1_0', pool)
+def inception_4(channel2, channel3, channel4, depth, layer_in):
+  conv2 = conv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3_1_3', layer_in)
+  conv3 = conv_bn_relu(channel3, 3, 1, 'same', f'nu_inception_{depth}_3x3_2_3', conv2)
+  layer_out = conv_bn_relu(channel4, 3, 1, 'same', f'nu_inception_{depth}_3x3_3_3', conv3)
 
   return layer_out
 
 def nu_inception(params1, params2, params3, params4, direct_channel, depth, layer_in):
   out1 = inception_1(params1[0], depth, layer_in)
-  out2 = inception_2(params2[0], params2[1], depth, layer_in)
+  out2 = inception_2(params2[0], depth, layer_in)
   out3 = inception_3(params3[0], params3[1], depth, layer_in)
-  out4 = inception_4(params4[0], depth, layer_in)
+  out4 = inception_4(params4[0], params4[1], params4[2], depth, layer_in)
 
   concat_layer = concatenate([out1, out2, out3, out4], axis=3)
 
@@ -137,10 +137,10 @@ def resnet_block(params1, params2, params3, params4, direct_channel, bypass_chan
 
   return layer_out
 
-module1 = [[16], [24, 32], [4, 8], [8]]
-module2 = [[32], [48, 64], [8, 16], [16]]
-module3 = [[64], [96, 128], [16, 32], [32]]
-module4 = [[128], [192, 256], [32, 64], [64]]
+module1 = [[16], [32], [8, 8], [8, 8, 8]]
+module2 = [[32], [64], [16, 16], [16, 16, 16]]
+module3 = [[64], [128], [32, 32], [32, 32, 32]]
+module4 = [[128], [256], [64, 64], [64, 64, 64]]
 modules = [module1, module2, module3, module4]
 
 direct_channels = [64, 128, 256, 512]
@@ -179,7 +179,7 @@ model = create_model()
 
 # keras.utils.plot_model(model, show_shapes=True, rankdir="LR")
 
-checkpoint_path = "modified_v2_training/cp.ckpt"
+checkpoint_path = "modified_v1_training/cp.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
 cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
