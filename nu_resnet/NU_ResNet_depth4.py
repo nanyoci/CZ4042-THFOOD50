@@ -3,20 +3,19 @@ import pandas as pd
 import numpy as np
 import os
 import random
-import time
 
 # tensorflow libraries
 import tensorflow as tf
 import tensorflow.keras as keras
 from tensorflow.keras import layers, regularizers, Sequential
 from tensorflow.keras.callbacks import ModelCheckpoint, LearningRateScheduler
-from tensorflow.keras.layers import Flatten, DepthwiseConv2D, SeparableConv2D, Dense, Dropout, Conv2D, BatchNormalization, MaxPooling2D, Input, concatenate, GlobalAveragePooling2D, Rescaling, Activation, Add
+from tensorflow.keras.layers import Dense, Dropout, Conv2D, BatchNormalization, MaxPooling2D, Input, concatenate, GlobalAveragePooling2D, Rescaling, Activation, Add
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from keras.models import Model
 from keras.losses import SparseCategoricalCrossentropy
 
 # change to path to THFOOD50 directory
-dir = '/home/UG/chul0004/THFOOD50-v1'
+dir = '../THFOOD50-v1'
 
 SEED = 50
 random.seed(SEED)
@@ -70,19 +69,13 @@ train_ds = train_ds.map(lambda x, y: (norm_layer(x), y))
 val_ds = val_ds.map(lambda x, y: (norm_layer(x), y))
 test_ds = test_ds.map(lambda x, y: (norm_layer(x), y))
 
-# NU-InNet
+# NU-InNet module
 def conv_bn_relu(num_filters, filter_size, stride, padding, name, layer_in):
   conv = Conv2D(num_filters, filter_size, stride, padding=padding, name=name, kernel_initializer='glorot_normal', kernel_regularizer=regularizers.l2(weight_decay),)(layer_in)
   conv_bn = BatchNormalization()(conv)
   layer_out = Activation('relu')(conv_bn)
-  return layer_out
 
-# Depthwise convolution
-def sepconv_bn_relu(num_filters, filter_size, stride, padding, name, layer_in):
-  x = SeparableConv2D(num_filters, filter_size, stride, padding=padding)(layer_in)
-  x = BatchNormalization()(x)
-  x = Activation('relu')(x)
-  return x
+  return layer_out
 
 def inception_1(channel1, depth, layer_in):
   layer_out = conv_bn_relu(channel1, 1, 1, 'valid', f'nu_inception_{depth}_1x1', layer_in)
@@ -91,22 +84,22 @@ def inception_1(channel1, depth, layer_in):
 
 def inception_2(channel1, channel2, depth, layer_in):
   conv1 = conv_bn_relu(channel1, 1, 1, 'valid', f'nu_inception_{depth}_3x3_reduce', layer_in)
-  layer_out = sepconv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3', conv1)
+  layer_out = conv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3', conv1)
 
   return layer_out
 
 def inception_3(channel1, channel2, channel3, depth, layer_in):
   conv1 = conv_bn_relu(channel1, 1, 1, 'valid', f'nu_inception_{depth}_3x3_0_reduce', layer_in)
-  conv2 = sepconv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3_1', conv1)
-  layer_out = sepconv_bn_relu(channel3, 3, 1, 'same', f'nu_inception_{depth}_3x3_2', conv2)
+  conv2 = conv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3_1', conv1)
+  layer_out = conv_bn_relu(channel3, 3, 1, 'same', f'nu_inception_{depth}_3x3_2', conv2)
 
   return layer_out
 
 def inception_4(channel1, channel2, channel3, channel4, depth, layer_in):
   conv1 = conv_bn_relu(channel1, 1, 1, 'valid', f'nu_inception_{depth}_3x3_0_3_reduce', layer_in)
-  conv2 = sepconv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3_1_3', conv1)
-  conv3 = sepconv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3_2_3', conv2)
-  layer_out = sepconv_bn_relu(channel3, 3, 1, 'same', f'nu_inception_{depth}_3x3_3_3', conv3)
+  conv2 = conv_bn_relu(channel2, 3, 1, 'same', f'nu_inception_{depth}_3x3_1_3', conv1)
+  conv3 = conv_bn_relu(channel3, 3, 1, 'same', f'nu_inception_{depth}_3x3_2_3', conv2)
+  layer_out = conv_bn_relu(channel4, 3, 1, 'same', f'nu_inception_{depth}_3x3_3_3', conv3)
 
   return layer_out
 
@@ -143,7 +136,7 @@ modules = [module1, module2, module3, module4]
 direct_channels = [64, 128, 256, 512]
 bypass_channels = [64, 128, 256, 512]
 
-# create NU-ResNet
+# function to create NU-ResNet of depth 4
 def create_model():
   input = Input(shape=(224, 224, 3))
 
@@ -168,19 +161,17 @@ def create_model():
 
   return model
 
-model = create_model()
-
 AUTOTUNE = tf.data.AUTOTUNE
 
-train_ds = train_ds.cache().shuffle(len(train_ds)).prefetch(buffer_size=AUTOTUNE)
+train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 model = create_model()
 
 # keras.utils.plot_model(model, show_shapes=True, rankdir="LR")
 
-# save best model
-checkpoint_path = "training_3/cp.ckpt"
+# checkpoint to save best model
+checkpoint_path = "training_2/cp.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
 cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
@@ -197,18 +188,12 @@ def scheduler(epoch, lr):
 
 sh_callback = tf.keras.callbacks.LearningRateScheduler(scheduler)
 
-start_time = time.time()
-
-# train
+# train model
 history = model.fit(train_ds, epochs=epochs, validation_data=val_ds, callbacks=[cp_callback, sh_callback], verbose=2)
-
-elapsed_time = time.time() - start_time
-
-print('Training time: ', elapsed_time)
 
 os.listdir(checkpoint_dir)
 
-# test
+# create model for test set
 model = create_model()
 
 model.load_weights(checkpoint_path)
