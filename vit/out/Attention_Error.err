@@ -1,2 +1,0 @@
-/home/UG/rleong007/.conda/envs/myenv/lib/python3.9/site-packages/transformers/feature_extraction_utils.py:158: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at  ../torch/csrc/utils/tensor_new.cpp:201.)
-  tensor = as_tensor(value)

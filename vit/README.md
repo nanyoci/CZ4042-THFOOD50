@@ -1,7 +1,6 @@
 # Vision Transformer (ViT) Experiments
 - This folder contains the code for running the ViT model experiments
 - Some sample outputs can be found in the folders:
-	- `out/`
 	- `attention_maps/`
 	- `original_model/`
 	- `food_model/`
