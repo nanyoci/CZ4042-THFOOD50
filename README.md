@@ -1,5 +1,5 @@
 # CZ4042-THFOOD50
-- This folder contains the source code for our 
+- This folder contains the source code for our project
 
 ## How to Run
 1. Install Python
