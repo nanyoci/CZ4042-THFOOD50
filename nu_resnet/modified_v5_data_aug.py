@@ -14,6 +14,7 @@ from tensorflow.keras.preprocessing import image_dataset_from_directory
 from keras.models import Model
 from keras.losses import SparseCategoricalCrossentropy
 
+# change to path to THFOOD50 directory
 dir = '../THFOOD50-v1'
 
 SEED = 50
@@ -31,6 +32,7 @@ momentum= 0.9
 class_names = [x[0].split('/')[-1] for x in os.walk(dir+'/train')]
 class_names = class_names[1:]
 
+# load data
 train_ds = image_dataset_from_directory(
     dir+'/train',
     labels='inferred',
@@ -60,7 +62,7 @@ test_ds = image_dataset_from_directory(
     image_size=(224,224)
 )
 
-
+# normalize
 norm_layer = Rescaling(1./255)
 
 train_ds = train_ds.map(lambda x, y: (norm_layer(x), y))
@@ -106,12 +108,14 @@ train_ds = train_ds.concatenate(train_rot180)
 train_ds = train_ds.concatenate(train_rot270)
 train_ds = train_ds.concatenate(train_flip)
 
+# NU-InNet module
 def conv_bn_relu(num_filters, filter_size, stride, padding, name, layer_in):
   conv = Conv2D(num_filters, filter_size, stride, padding=padding, name=name, kernel_initializer='glorot_normal', kernel_regularizer=regularizers.l2(weight_decay),)(layer_in)
   conv_bn = BatchNormalization()(conv)
   layer_out = Activation('relu')(conv_bn)
   return layer_out
 
+# Depthwise convolution
 def sepconv_bn_relu(num_filters, filter_size, stride, padding, name, layer_in):
   x = SeparableConv2D(num_filters, filter_size, stride, padding=padding)(layer_in)
   x = BatchNormalization()(x)
@@ -156,6 +160,7 @@ def nu_inception(params1, params2, params3, params4, direct_channel, depth, laye
 
   return layer_out
 
+# NU-ResNet module
 def resnet_block(params1, params2, params3, params4, direct_channel, bypass_channel, depth, layer_in):
   pool = MaxPooling2D(3, 2, name=f'pool{depth}')(layer_in)
   conv1 = nu_inception(params1, params2, params3, params4, direct_channel, depth, pool)
@@ -166,16 +171,17 @@ def resnet_block(params1, params2, params3, params4, direct_channel, bypass_chan
 
   return layer_out
 
+# parameters
 module1 = [[16], [24, 32], [4, 8, 8], [4, 8, 8, 8]]
 module2 = [[32], [48, 64], [8, 16, 16], [8, 16, 16, 16]]
 module3 = [[64], [96, 128], [16, 32, 32], [16, 32, 32, 32]]
 module4 = [[128], [192, 256], [32, 64, 64], [32, 64, 64, 64]]
-# module3 = [[256], [384, 512], [64, 128, 128], [64, 128, 128, 128]]
 modules = [module1, module2, module3, module4]
 
 direct_channels = [64, 128, 256, 512]
 bypass_channels = [64, 128, 256, 512]
 
+# create NU-ResNet
 def create_model():
   input = Input(shape=(224, 224, 3))
 
@@ -185,8 +191,6 @@ def create_model():
     layer_out = resnet_block(module[0], module[1], module[2], module[3], direct_channels[i], bypass_channels[i], i+1, layer_out)
 
   avg_pool = GlobalAveragePooling2D(name='avg_pool')(layer_out)
-
-  # layer_out = Dense(256)(avg_pool)
   
   layer_out = Dense(num_classes)(avg_pool)
 
@@ -213,6 +217,7 @@ model = create_model()
 
 # keras.utils.plot_model(model, show_shapes=True, rankdir="LR")
 
+# save the best model
 checkpoint_path = "training_3/cp.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
@@ -223,16 +228,19 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                  mode='min',
                                                  verbose=1)
 
+# LR scheduler as specified in the paper
 def scheduler(epoch, lr):
   rates = [0.1, 0.01,  0.001, 0.0001]
   return tf.dtypes.cast(rates[epoch//25], tf.float32) 
 
 sh_callback = tf.keras.callbacks.LearningRateScheduler(scheduler)
 
+# train
 history = model.fit(train_ds, epochs=epochs, validation_data=val_ds, callbacks=[cp_callback, sh_callback], verbose=2)
 
 os.listdir(checkpoint_dir)
 
+# test
 model = create_model()
 
 model.load_weights(checkpoint_path)
